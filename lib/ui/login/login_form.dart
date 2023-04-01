@@ -1,86 +1,47 @@
 // ignore_for_file: file_names, non_constant_identifier_names
 import 'package:flutter/material.dart';
+import 'package:flutter_app/ui/facilities/home_page.dart';
+import 'package:flutter_app/utils/global.colors.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/loginProvider.dart';
+import '../../providers/login_provider.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class LoginForm extends StatefulWidget {
+  const LoginForm({super.key});
 
   @override
-  LoginPageState createState() => LoginPageState();
+  LoginFormState createState() => LoginFormState();
 }
 
-class LoginPageState extends State<LoginPage> {
-  LoginState state = LoginState.initial;
+class LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   bool _obscureText = true;
   var email = "";
-  var errorMessage = "Wrong Information";
+  var errorMessage = "";
   var emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<LoginProvider>(context);
-    state = provider.state;
-    return Scaffold(
-      body: Body(),
-    );
+    return loginForm();
   }
 
+  //Switch case
+
   loginForm() {
-    var logo = Logo();
-    var greetingText = GreetingText();
     var email = Email();
     var password = Password();
     var loginButton = LoginButton();
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Form(
-        key: _formKey,
-        child: SafeArea(
-            child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              logo,
-              greetingText,
-              email,
-              password,
-              loginButton,
-            ],
-          ),
-        )),
+
+    return Form(
+      key: _formKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          email,
+          password,
+          loginButton,
+          ErrorMessage(),
+        ],
       ),
-    );
-  }
-
-// Logo
-  Logo() {
-    return SizedBox(
-      child: Image.asset('images/logoLogin.jpg'),
-    );
-  }
-
-// Greeting Text
-  GreetingText() {
-    return Column(
-      children: const [
-        SizedBox(
-          height: 20,
-        ),
-        Text(
-          'Welcome Again!',
-          style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 30, color: Colors.purple),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Text('We are happy to see you again!', style: TextStyle(fontSize: 12)),
-        SizedBox(
-          height: 20,
-        ),
-      ],
     );
   }
 
@@ -91,10 +52,10 @@ class LoginPageState extends State<LoginPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Email',
             style: TextStyle(
-              color: Colors.purple,
+              color: GlobalColors().purple,
               fontSize: 13,
             ),
           ),
@@ -103,7 +64,7 @@ class LoginPageState extends State<LoginPage> {
             validator: validateEmail,
             decoration: InputDecoration(
               labelText: 'Add Email Here',
-              labelStyle: const TextStyle(color: Colors.purple),
+              labelStyle: TextStyle(color: GlobalColors().purple),
               floatingLabelBehavior: FloatingLabelBehavior.never,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(5),
@@ -136,9 +97,9 @@ class LoginPageState extends State<LoginPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Password',
-            style: TextStyle(fontSize: 13, color: Colors.purple),
+            style: TextStyle(fontSize: 13, color: GlobalColors().purple),
           ),
           TextFormField(
             validator: (value) {
@@ -150,7 +111,7 @@ class LoginPageState extends State<LoginPage> {
             obscureText: _obscureText,
             decoration: InputDecoration(
               hintText: 'Password',
-              hintStyle: const TextStyle(color: Colors.purple),
+              hintStyle: TextStyle(color: GlobalColors().purple),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
@@ -185,7 +146,7 @@ class LoginPageState extends State<LoginPage> {
   LoginButton() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        primary: const Color.fromARGB(255, 220, 92, 13),
+        primary: GlobalColors().orange,
         padding: const EdgeInsets.symmetric(horizontal: 125, vertical: 20),
         textStyle: const TextStyle(
           fontSize: 20,
@@ -205,20 +166,6 @@ class LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-  }
-
-//Switch case
-  Body() {
-    switch (state) {
-      case LoginState.initial:
-        return loginForm();
-      case LoginState.loading:
-        return const Center(child: CircularProgressIndicator());
-      case LoginState.failed:
-        return loginForm();
-      case LoginState.succeeded:
-        return const Center(child: Text('Login succeeded'));
-    }
   }
 
   ErrorMessage() {

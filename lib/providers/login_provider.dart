@@ -15,9 +15,8 @@ class LoginProvider extends ChangeNotifier {
     state = LoginState.loading;
     notifyListeners();
     //call login api
-    Future.delayed(const Duration(seconds: 3), () {
-      state = LoginState.failed;
-      notifyListeners();
-    });
+    await Future.delayed(const Duration(seconds: 2), () {});
+    state = LoginState.succeeded;
+    notifyListeners();
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import '../../providers/FacilitiesProvider.dart';
+import '../../providers/facilities_provider.dart';
 
 class FacilitiesListItem extends StatefulWidget {
   const FacilitiesListItem({Key? key}) : super(key: key);

@@ -1,10 +1,13 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
-import 'package:flutter_app/providers/FacilitiesProvider.dart';
+import 'package:flutter_app/providers/facilities_provider.dart';
 
-import 'FacilitiesListItem.dart';
+import '../../utils/global.colors.dart';
+import 'facilities_list.dart';
 
-class FacilitiesPage extends StatelessWidget {
-  const FacilitiesPage({Key? key}) : super(key: key);
+class FacilitiesHeader extends StatelessWidget {
+  const FacilitiesHeader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,22 +33,22 @@ class FacilitiesPage extends StatelessWidget {
         title: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
-            children: const [
+            children: [
               Text(
                 'Welcome!',
                 style: TextStyle(
-                    color: Colors.purple,
+                    color: GlobalColors().purple,
                     fontWeight: FontWeight.bold,
                     fontSize: 25),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 2,
               ),
               Padding(
-                padding: EdgeInsets.only(right: 25),
-                child: Text('Khalid Abdu',
+                padding: const EdgeInsets.only(right: 25),
+                child: Text('Fawaz Fawzy',
                     style: TextStyle(
-                        color: Colors.purple,
+                        color: GlobalColors().purple,
                         fontWeight: FontWeight.bold,
                         fontSize: 15)),
               )
@@ -53,7 +56,7 @@ class FacilitiesPage extends StatelessWidget {
           ),
         ),
       ),
-      body: const FacilitiesListItem(),
+      body: const FacilitiesList(),
     );
   }
 }
