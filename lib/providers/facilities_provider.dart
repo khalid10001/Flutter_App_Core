@@ -20,9 +20,6 @@ class FacilitiesProvider extends ChangeNotifier {
     state = FacilityState.loading;
     notifyListeners();
     facilities = await FacilitiesApi().getFacilities();
-    // var response = facilities = await FacilitiesApi()
-    //     .bookFacility(2, 2, "2023-04-07T14:00:00", "2023-04-07T16:00:00");
-    // print(response);
     state = FacilityState.succeeded;
     notifyListeners();
   }

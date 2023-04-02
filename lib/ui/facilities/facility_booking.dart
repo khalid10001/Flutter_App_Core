@@ -33,7 +33,7 @@ class _FacilityBookingState extends State<FacilityBooking> {
                     2, 2, "2023-04-07T14:00:00", "2023-04-07T16:00:00");
                 print(response);
               },
-              child: const Text("Book"))
+              child: const Text("Book")),
         ],
       )),
     );

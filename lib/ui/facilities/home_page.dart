@@ -49,6 +49,7 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.all(15),
                   splashRadius: 20,
                   hoverColor: GlobalColors().orange,
+                  tooltip: 'Home',
                   iconSize: 20,
                   icon: const Icon(
                     Icons.home_filled,
@@ -65,6 +66,7 @@ class _HomePageState extends State<HomePage> {
                   splashRadius: 20,
                   iconSize: 20,
                   hoverColor: GlobalColors().orange,
+                  tooltip: 'Profile',
                   icon: const Icon(
                     Icons.person,
                     color: Colors.white,
@@ -80,6 +82,7 @@ class _HomePageState extends State<HomePage> {
                   splashRadius: 20,
                   iconSize: 20,
                   hoverColor: GlobalColors().orange,
+                  tooltip: 'Setting',
                   icon: const Icon(
                     Icons.settings,
                     color: Colors.white,

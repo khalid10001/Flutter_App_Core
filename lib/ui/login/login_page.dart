@@ -25,7 +25,6 @@ class LoginPage extends StatelessWidget {
         children: const [LoginHeader(), LoginForm()],
       );
     } else if (provider.state == LoginState.succeeded) {
-      print("Succeedued");
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => const HomePage()));

@@ -14,15 +14,32 @@ class FacilitiesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFFFE0B2),
-      body: Column(
-        children: const [
-          OurOffice(),
-          FacilitiesListItem(),
-        ],
-      ),
-    );
+    var provider = Provider.of<FacilitiesProvider>(context);
+    var facilities = provider.facilities;
+    if (provider.state == FacilityState.initial) {
+      provider.getFacilities();
+      return const Scaffold(
+          backgroundColor: Color(0xFFFFE0B2),
+          body: Center(child: loadingWidget()));
+    } else if (provider.state == FacilityState.failed) {
+      return const Center(
+        child: Text('Failed'),
+      );
+    } else {
+      return Scaffold(
+        backgroundColor: const Color(0xFFFFE0B2),
+        body: Column(
+          children: [
+            const OurOffice(),
+            FacilitiesListItem(facilities),
+          ],
+        ),
+        extendBody: true,
+        bottomNavigationBar: const SizedBox(
+          height: 80,
+        ),
+      );
+    }
   }
 }
 
@@ -55,94 +72,80 @@ class OurOffice extends StatelessWidget {
 }
 
 class FacilitiesListItem extends StatelessWidget {
-  const FacilitiesListItem({super.key});
+  final List<Facility> facilities;
+  const FacilitiesListItem(this.facilities, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    var provider = Provider.of<FacilitiesProvider>(context);
-    var facilities = provider.facilities;
-    if (provider.state == FacilityState.initial) {
-      provider.getFacilities();
-      return const loadingWidget();
-    } else if (provider.state == FacilityState.failed) {
-      return const Center(
-        child: Text('Failed'),
-      );
-    } else {
-      return Expanded(
-        child: ListView.builder(
-            itemCount: facilities.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                padding: const EdgeInsets.all(10),
-                child: InkWell(
-                  child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Column(
-                          children: <Widget>[
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.network(
-                                facilities[index].photos[0],
-                              ),
-                            ),
-                            ListTile(
-                              title: Text(facilities[index].name,
-                                  style: TextStyle(
-                                    color: GlobalColors().purple,
-                                    fontWeight: FontWeight.bold,
-                                  )),
-                              subtitle: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    facilities[index].capacity,
-                                    style: TextStyle(
-                                        color: GlobalColors().purple,
-                                        fontSize: 10),
-                                  ),
-                                  Container(
-                                    width: 65,
-                                    height: 20,
-                                    alignment: Alignment.center,
-                                    decoration: const BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      color: Color.fromARGB(255, 165, 214, 167),
-                                    ),
-                                    child: const Text(
-                                      'Available',
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 12),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: GlobalColors().purple,
-                                ),
-                                onPressed: () async {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => FacilityBooking(
-                                              facilities[index])));
-                                },
-                                child: const Text("Book"))
-                          ],
+    return Expanded(
+      child: ListView.builder(
+          itemCount: facilities.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Padding(
+              padding: const EdgeInsets.all(10),
+              child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Column(
+                      children: <Widget>[
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.network(
+                            facilities[index].photos[0],
+                          ),
                         ),
-                      )),
-                ),
-              );
-            }),
-      );
-    }
+                        ListTile(
+                          title: Text(facilities[index].name,
+                              style: TextStyle(
+                                color: GlobalColors().purple,
+                                fontWeight: FontWeight.bold,
+                              )),
+                          subtitle: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                facilities[index].capacity,
+                                style: TextStyle(
+                                    color: GlobalColors().purple, fontSize: 10),
+                              ),
+                              Container(
+                                width: 65,
+                                height: 20,
+                                alignment: Alignment.center,
+                                decoration: const BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  color: Color.fromARGB(255, 165, 214, 167),
+                                ),
+                                child: const Text(
+                                  'Available',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 12),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: GlobalColors().purple,
+                            ),
+                            onPressed: () async {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          FacilityBooking(facilities[index])));
+                            },
+                            child: const Text("Book"))
+                      ],
+                    ),
+                  )),
+            );
+          }),
+    );
   }
 }
